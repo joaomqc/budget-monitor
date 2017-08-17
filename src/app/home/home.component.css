@@ -1,0 +1,8 @@
+.table-hover tbody tr:hover td {
+  background: rgba(134, 180, 255, 0.1);
+}
+
+.table-striped
+> table > * > *:nth-of-type(odd) {
+  background-color: #f9f9f9;
+}
