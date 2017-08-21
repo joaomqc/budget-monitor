@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="panel-group">
+    <div class="panel panel-default">
+      <div data-toggle="collapse" href="#collapse1" class="panel-heading">
+        <h4 class="panel-title">
+          Expenses by Type
+        </h4>
+      </div>
+      <div id="collapse1" class="panel-collapse collapse">
+        <div class="panel-body">
+          <ngx-charts-pie-chart
+            [view]="view"
+            [results]="single"
+            [legend]="showLegend"
+            [labels]="showLabels"
+            (select)="onSelect($event)">
+          </ngx-charts-pie-chart>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

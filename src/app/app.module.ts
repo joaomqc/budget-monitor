@@ -1,12 +1,15 @@
-import { Route, RouterModule } from '@angular/router';
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {Route, RouterModule} from '@angular/router';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 
-import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
-import { GraphsComponent } from './graphs/graphs.component';
+import {AppComponent} from './app.component';
+import {HomeComponent} from './view/home/home.component';
+import {GraphsComponent} from './view/graphs/graphs.component';
 import {FormsModule} from '@angular/forms';
-import { SuggestComponent } from './suggest/suggest.component';
+import {SuggestComponent} from './view/suggest/suggest.component';
+import {NgxChartsModule} from '@swimlane/ngx-charts';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {TransactionsService} from "./services/transactions/transactions.service";
 
 const appRoute: Route[] = [
   {path: '', component: HomeComponent},
@@ -23,9 +26,10 @@ const appRoute: Route[] = [
     SuggestComponent
   ],
   imports: [
-    BrowserModule, RouterModule.forRoot(appRoute), FormsModule
+    BrowserModule, BrowserAnimationsModule, NgxChartsModule, RouterModule.forRoot(appRoute), FormsModule
   ],
-  providers: [],
+  providers: [TransactionsService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
