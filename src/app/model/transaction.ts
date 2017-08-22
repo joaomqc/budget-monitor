@@ -6,7 +6,7 @@ export class Transaction {
   public date: Date;
   public expanded = false;
 
-  constructor(type: string, amount: number, description?: string, date?: Date) {
+  constructor(type: string, amount: number, date: Date, description?: string) {
     this.type = type;
     this.description = description;
     this.amount = amount;

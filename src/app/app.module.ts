@@ -10,6 +10,7 @@ import {SuggestComponent} from './view/suggest/suggest.component';
 import {NgxChartsModule} from '@swimlane/ngx-charts';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {TransactionsService} from "./services/transactions/transactions.service";
+import {OrderByPipe} from "./util/pipes/orderby";
 
 const appRoute: Route[] = [
   {path: '', component: HomeComponent},
@@ -23,7 +24,7 @@ const appRoute: Route[] = [
     AppComponent,
     HomeComponent,
     GraphsComponent,
-    SuggestComponent
+    SuggestComponent, OrderByPipe
   ],
   imports: [
     BrowserModule, BrowserAnimationsModule, NgxChartsModule, RouterModule.forRoot(appRoute), FormsModule

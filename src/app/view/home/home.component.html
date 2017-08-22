@@ -16,15 +16,18 @@
           <div class="form-group">
             <label for="type">Type</label>
             <input class="form-control" id="type" name="type" [(ngModel)]="type" required/>
+            <p class="message" [hidden]=hideTypeMessage>Type must not be empty!</p>
           </div>
           <div>
             <div class="form-group" style="display: inline-block">
               <label for="amount">Amount</label>
               <input class="form-control" type="number" id="amount" name="amount" [(ngModel)]="amount" required/>
+              <p class="message" [hidden]=hideAmountMessage>Amount must be greater than zero!</p>
             </div>
             <div class="form-group" style="display: inline-block; float: right">
               <label for="date">Date</label>
-              <input class="form-control" type="datetime-local" id="date" name="date" [(ngModel)]="date"/>
+              <input class="form-control" type="datetime-local" id="date" name="date" [(ngModel)]="date" required/>
+              <p class="message" [hidden]=hideDateMessage>Date is invalid!</p>
             </div>
           </div>
           <div class="form-group">
@@ -42,26 +45,70 @@
 </div>
 <br/>
 <div class="container">
-  <div id="nav" class="table-responsive">
+  <div class="table-responsive">
     <table id="data" class="table table-striped table-hover">
       <thead>
       <tr>
-        <th>Type</th>
-        <th>Amount</th>
-        <th>Date</th>
+        <th><span (click)="sortType==='type'?sortType='type inv':sortType='type'">Type <span
+          [ngClass]="sortType!=='type inv'?'glyphicon glyphicon-sort-by-alphabet':'glyphicon glyphicon-sort-by-alphabet-alt'"></span></span>
+        </th>
+        <th><span (click)="sortType==='amount'?sortType='amount inv':sortType='amount'">Amount <span
+          [ngClass]="sortType!=='amount inv'?'glyphicon glyphicon-sort-by-attributes':'glyphicon glyphicon-sort-by-attributes-alt'"></span></span>
+        </th>
+        <th><span (click)="sortType==='date'?sortType='date inv':sortType='date'">Date <span
+          [ngClass]="sortType!=='date inv'?'glyphicon glyphicon-sort-by-attributes':'glyphicon glyphicon-sort-by-attributes-alt'"></span></span>
+        </th>
+        <th></th>
         <th></th>
       </tr>
       </thead>
-      <tbody *ngFor="let element of list">
-        <tr>
-          <td>{{element.type}}</td>
-          <td>{{element.amount | number:'1.2'}}</td>
-          <td>{{element.date | date: 'dd-MM-yyyy HH:mm:ss'}}</td>
-          <td><span [ngClass]="element.expanded?'glyphicon glyphicon-minus-sign':'glyphicon glyphicon-plus-sign'" (click)="element.expanded = !element.expanded"></span></td>
-        </tr>
-        <tr *ngIf="element.expanded">
-          <td colspan="4">{{element.description}}</td>
-        </tr>
+      <tbody *ngFor="let element of list | orderBy: sortType">
+      <tr>
+        <td>{{element.type}}</td>
+        <td>{{element.amount | number:'1.2'}}</td>
+        <td>{{element.date | date: 'dd-MM-yyyy HH:mm:ss'}}</td>
+        <td><span [ngClass]="element.expanded?'glyphicon glyphicon-minus-sign':'glyphicon glyphicon-plus-sign'"
+                  (click)="element.expanded = !element.expanded"></span></td>
+        <td><span class="glyphicon glyphicon-remove-sign" data-toggle="modal" data-target="#RemoveTransaction"></span>
+        </td>
+        <div style="vertical-align: middle" class="modal fase" id="RemoveTransaction" role="dialog">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span
+                  class="glyphicon glyphicon-remove-circle"></span></button>
+                <h4>Remove Transaction</h4>
+              </div>
+              <div class="modal-body">
+                <div class="form-group">
+                  <label for="delType">Type:</label>
+                  <input id="delType" class="form-control" readonly value="{{element.type}}"/>
+                  <label for="delAmount">Amount:</label>
+                  <input id="delAmount" class="form-control" readonly value="{{element.amount | number:'1.2'}}"/>
+                  <label for="delDate">Date:</label>
+                  <input id="delDate" class="form-control" readonly
+                         value="{{element.date | date: 'dd-MM-yyyy HH:mm:ss'}}"/>
+                  <label for="delDesc">Description:</label>
+                  <textarea class="form-control" id="delDesc" rows="3" style="resize: none" readonly>{{element.description}}</textarea>
+                </div>
+                <div class="container">
+                  <div>
+                    <label for="delete">Are you sure you want to delete this transaction?</label>
+                  </div>
+                  <div>
+                    <button type="button" class="btn btn-danger" id="delete" data-dismiss="modal"
+                            (click)="remove(element)">Delete
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </tr>
+      <tr *ngIf="element.expanded">
+        <td colspan="5">{{element.description}}</td>
+      </tr>
       </tbody>
     </table>
   </div>

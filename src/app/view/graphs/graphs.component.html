@@ -9,12 +9,37 @@
       <div id="collapse1" class="panel-collapse collapse">
         <div class="panel-body">
           <ngx-charts-pie-chart
-            [view]="view"
-            [results]="single"
-            [legend]="showLegend"
-            [labels]="showLabels"
-            (select)="onSelect($event)">
+            [results]="pieChartData"
+            [legend]="true"
+            [labels]="true">
           </ngx-charts-pie-chart>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="panel-group">
+    <div class="panel panel-default">
+      <div data-toggle="collapse" href="#collapse2" class="panel-heading">
+        <h4 class="panel-title">
+          Expenses by Year and Type
+        </h4>
+      </div>
+      <div id="collapse2" class="panel-collapse collapse">
+        <div class="panel-body">
+          <ngx-charts-line-chart
+            [results]="lineChartData"
+            [xAxis]="true"
+            [yAxis]="true"
+            [legend]="true"
+            [showXAxisLabel]="true"
+            [showYAxisLabel]="true"
+            [xAxisLabel]="lineChartXLabel"
+            [yAxisLabel]="lineChartYLabel"
+            [autoScale]="true">
+          </ngx-charts-line-chart>
         </div>
       </div>
     </div>

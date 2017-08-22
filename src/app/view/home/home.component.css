@@ -1,3 +1,7 @@
 .table-hover tbody tr:hover td {
   background: rgba(134, 180, 255, 0.1);
 }
+
+.message{
+  color: red;
+}

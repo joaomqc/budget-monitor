@@ -4,10 +4,10 @@ import {Transaction} from '../../model/transaction';
 @Injectable()
 export class TransactionsService {
   private list: Transaction[] = [
-    new Transaction('Health', 34.4, 'appointment', new Date()),
-    new Transaction('Health', 25.50, 'Dentist', new Date('2013-06-13T08:45:32')),
-    new Transaction('Automotive', 214, 'Mechanic'),
-    new Transaction('Food', 34.59)
+    new Transaction('Health', 34.4, new Date(), 'Appointment'),
+    new Transaction('Health', 25.50, new Date('2013-06-13T08:45:32'), 'Dentist'),
+    new Transaction('Automotive', 214, new Date(), 'Mechanic'),
+    new Transaction('Food', 34.59, new Date('2017-08-21T09:54:03'))
   ];
 
   constructor() {
@@ -19,6 +19,25 @@ export class TransactionsService {
 
   public addTransaction(transaction: Transaction) {
     this.list.push(transaction);
+  }
+
+  public removeTransaction(transaction: Transaction) {
+    const index = this.list.indexOf(transaction);
+    if (index > -1) {
+      this.list.splice(index, 1);
+    }
+  }
+
+  public types() {
+    const types: string[] = [];
+    this.list.forEach(t => {
+        if (types.indexOf(t.type) === -1) {
+          types.push(t.type);
+        }
+      }
+    )
+    ;
+    return types;
   }
 
   public pieChart() {
@@ -39,6 +58,34 @@ export class TransactionsService {
       array.push({name: keys[i], value: values[i]});
     }
     return array;
+  }
+
+  public lineChart() {
+    const keys = [] = this.types();
+    const data = [];
+    const currYear = new Date().getFullYear();
+    const lowYear = this.list.sort((a, b) => {
+      if (a.date < b.date) {
+        return -1;
+      } else if (a.date === b.date) {
+        return 0;
+      }
+      return 1;
+    })[0].date.getFullYear();
+    keys.forEach(k => {
+      const years = [];
+      for (let i = lowYear; i <= currYear; i++) {
+        years.push({name: i.toString(), value: 0});
+      }
+      data.push({name: k, series: years});
+    });
+    this.list.forEach(t => {
+      const typeIndex = keys.indexOf(t.type);
+      const yearIndex = t.date.getFullYear() - lowYear;
+      data[typeIndex].series[yearIndex].value += t.amount;
+    });
+    console.log(data);
+    return data;
   }
 
 }

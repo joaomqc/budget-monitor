@@ -7,22 +7,15 @@ import {TransactionsService} from '../../services/transactions/transactions.serv
   styleUrls: ['./graphs.component.css']
 })
 export class GraphsComponent {
-  single: any[];
+  pieChartData: any[] = [];
+  lineChartData: any[] = [];
 
-  view: any[] = [700, 400];
-
-  // options
-  showLegend = true;
-
-  // pie
-  showLabels = true;
+  lineChartXLabel = 'Year';
+  lineChartYLabel = 'Total Spent';
 
   constructor(private transactions: TransactionsService) {
-    const single = transactions.pieChart();
-    Object.assign(this, {single});
+    this.pieChartData = this.transactions.pieChart();
+    this.lineChartData = this.transactions.lineChart();
   }
 
-  onSelect(event) {
-    console.log(event);
-  }
 }
