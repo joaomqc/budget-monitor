@@ -1,14 +1,17 @@
-import {Component} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Transaction} from '../../model/transaction';
 import {isNullOrUndefined} from 'util';
 import {TransactionsService} from '../../services/transactions/transactions.service';
+import {TransactionDataSource} from '../../model/transactionDataSource';
+import {TransactionDatabase} from '../../model/TransactionDatabase';
+import {MdPaginator} from '@angular/material';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
 
   hideTypeMessage = true;
   hideDateMessage = true;
@@ -17,11 +20,24 @@ export class HomeComponent {
   amount: number;
   date: string;
   description: string;
-  list: Transaction[] = this.transactions.transactions();
-  types: string[] = this.transactions.types();
-  sortType = 'date';
+  // list: Transaction[] = this.transactions.transactions();
+  // types: string[] = this.transactions.types();
+  // sortType = 'date';
 
-  constructor(private transactions: TransactionsService) {
+  database: TransactionDatabase = this.transactionsService.database;
+  dataSource: TransactionDataSource | null;
+  displayedColumns = ['type', 'amount', 'date'];
+  currency = '€ ';
+  types: string[];
+
+  @ViewChild(MdPaginator) paginator: MdPaginator;
+
+  constructor(private transactionsService: TransactionsService) {
+  }
+
+  ngOnInit() {
+    this.dataSource = new TransactionDataSource(this.database, this.paginator);
+    this.types = this.transactionsService.types();
   }
 
   submit() {
@@ -40,8 +56,16 @@ export class HomeComponent {
       valid = false;
     }
     if (valid) {
-      this.transactions.addTransaction(new Transaction(this.type, this.amount, new Date(this.date), this.description));
+      // this.transactions.addTransaction(new Transaction(this.type, this.amount, new Date(this.date), this.description));
+      this.transactionsService.addTransaction({
+        type: this.type,
+        amount: this.amount,
+        date: new Date(this.date),
+        description: this.description
+      });
       this.clear();
+      // this.types = this.transactions.types();
+      this.types = this.transactionsService.types();
     }
   }
 
@@ -50,7 +74,6 @@ export class HomeComponent {
     this.amount = null;
     this.date = null;
     this.description = null;
-    this.types = this.transactions.types();
   }
 
   hideMessages() {
@@ -60,8 +83,9 @@ export class HomeComponent {
   }
 
   remove(transaction: Transaction) {
-    this.transactions.removeTransaction(transaction);
-    this.list = this.transactions.transactions();
+    this.transactionsService.removeTransaction(transaction);
+    this.types = this.transactionsService.types();
+    // this.list = this.transactions.transactions();
   }
 
 }
