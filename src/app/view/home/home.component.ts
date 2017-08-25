@@ -1,10 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {Transaction} from '../../model/transaction';
 import {isNullOrUndefined} from 'util';
 import {TransactionsService} from '../../services/transactions/transactions.service';
-import {TransactionDataSource} from '../../model/transactionDataSource';
-import {TransactionDatabase} from '../../model/TransactionDatabase';
-import {MdPaginator} from '@angular/material';
+import {TransactionData} from '../../model/transactionData';
 
 @Component({
   selector: 'app-home',
@@ -20,23 +17,17 @@ export class HomeComponent implements OnInit {
   amount: number;
   date: string;
   description: string;
-  // list: Transaction[] = this.transactions.transactions();
-  // types: string[] = this.transactions.types();
-  // sortType = 'date';
 
-  database: TransactionDatabase = this.transactionsService.database;
-  dataSource: TransactionDataSource | null;
-  displayedColumns = ['type', 'amount', 'date'];
-  currency = '€ ';
+  rows: TransactionData[] = this.transactionsService.database.data;
   types: string[];
+  selected = [{}];
 
-  @ViewChild(MdPaginator) paginator: MdPaginator;
+  @ViewChild('myTable') table;
 
   constructor(private transactionsService: TransactionsService) {
   }
 
   ngOnInit() {
-    this.dataSource = new TransactionDataSource(this.database, this.paginator);
     this.types = this.transactionsService.types();
   }
 
@@ -56,7 +47,6 @@ export class HomeComponent implements OnInit {
       valid = false;
     }
     if (valid) {
-      // this.transactions.addTransaction(new Transaction(this.type, this.amount, new Date(this.date), this.description));
       this.transactionsService.addTransaction({
         type: this.type,
         amount: this.amount,
@@ -64,7 +54,6 @@ export class HomeComponent implements OnInit {
         description: this.description
       });
       this.clear();
-      // this.types = this.transactions.types();
       this.types = this.transactionsService.types();
     }
   }
@@ -82,10 +71,12 @@ export class HomeComponent implements OnInit {
     this.hideAmountMessage = true;
   }
 
-  remove(transaction: Transaction) {
+  removeTransaction(transaction: TransactionData) {
     this.transactionsService.removeTransaction(transaction);
     this.types = this.transactionsService.types();
-    // this.list = this.transactions.transactions();
   }
 
+  toggleExpandRow(row) {
+    this.table.rowDetail.toggleExpandRow(row);
+  }
 }

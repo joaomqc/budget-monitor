@@ -7,15 +7,14 @@ import {TransactionsService} from '../../services/transactions/transactions.serv
   styleUrls: ['./graphs.component.css']
 })
 export class GraphsComponent {
-  pieChartData: any[] = [];
-  lineChartData: any[] = [];
-
-  lineChartXLabel = 'Year';
-  lineChartYLabel = 'Total Spent';
+  expensesByTypePieChartData: any[] = [];
+  expensesByTypeAndYearLineChartData: any[] = [];
+  expensesByMonthLineChartData: any[] = [];
 
   constructor(private transactions: TransactionsService) {
-    this.pieChartData = this.transactions.pieChart();
-    this.lineChartData = this.transactions.lineChart();
+    this.expensesByTypePieChartData = this.transactions.expensesByTypePieChart();
+    this.expensesByTypeAndYearLineChartData = this.transactions.expensesByTypeAndYearLineChart();
+    this.expensesByMonthLineChartData = this.transactions.expensesByMonthLineChart();
   }
 
 }

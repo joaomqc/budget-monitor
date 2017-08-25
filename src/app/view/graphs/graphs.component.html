@@ -9,7 +9,7 @@
       <div id="collapse1" class="panel-collapse collapse">
         <div class="panel-body">
           <ngx-charts-pie-chart
-            [results]="pieChartData"
+            [results]="expensesByTypePieChartData"
             [legend]="true"
             [labels]="true">
           </ngx-charts-pie-chart>
@@ -30,14 +30,41 @@
       <div id="collapse2" class="panel-collapse collapse">
         <div class="panel-body">
           <ngx-charts-line-chart
-            [results]="lineChartData"
+            [results]="expensesByTypeAndYearLineChartData"
             [xAxis]="true"
             [yAxis]="true"
             [legend]="true"
             [showXAxisLabel]="true"
             [showYAxisLabel]="true"
-            [xAxisLabel]="lineChartXLabel"
-            [yAxisLabel]="lineChartYLabel"
+            [xAxisLabel]="'Year'"
+            [yAxisLabel]="'Total Spent'"
+            [autoScale]="true">
+          </ngx-charts-line-chart>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="panel-group">
+    <div class="panel panel-default">
+      <div data-toggle="collapse" href="#collapse3" class="panel-heading">
+        <h4 class="panel-title">
+          Expenses by Month
+        </h4>
+      </div>
+      <div id="collapse3" class="panel-collapse collapse">
+        <div class="panel-body">
+          <ngx-charts-line-chart
+            [results]="expensesByMonthLineChartData"
+            [xAxis]="true"
+            [yAxis]="true"
+            [legend]="true"
+            [showXAxisLabel]="true"
+            [showYAxisLabel]="true"
+            [xAxisLabel]="'Month'"
+            [yAxisLabel]="'Total Spent'"
             [autoScale]="true">
           </ngx-charts-line-chart>
         </div>

@@ -1,26 +1,7 @@
-.table-hover tbody tr:hover td {
-  background: rgba(134, 180, 255, 0.1);
-}
-
-.message{
+.message {
   color: red;
 }
 
-.example-container {
-  display: flex;
-  flex-direction: column;
-  max-height: 500px;
-  min-width: 300px;
-}
-
-.example-header {
-  min-height: 64px;
-  display: flex;
-  align-items: center;
-  padding-left: 24px;
-  font-size: 20px;
-}
-
-.mat-table {
-  overflow: auto;
+#date {
+  background-color: white;
 }

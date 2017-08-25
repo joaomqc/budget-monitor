@@ -17,7 +17,8 @@ import {DateTimePickerModule} from 'ng-pick-datetime';
 import {CurrencyMaskModule} from 'ng2-currency-mask';
 import {CommonModule} from '@angular/common';
 import {NguiAutoCompleteModule} from '@ngui/auto-complete';
-import {HttpModule} from "@angular/http";
+import {HttpModule} from '@angular/http';
+import {NgxDatatableModule} from '@swimlane/ngx-datatable';
 
 const appRoute: Route[] = [
   {path: '', component: HomeComponent},
@@ -48,7 +49,8 @@ const appRoute: Route[] = [
     CurrencyMaskModule,
     CommonModule,
     NguiAutoCompleteModule,
-    HttpModule
+    HttpModule,
+    NgxDatatableModule
   ],
   providers: [TransactionsService],
   bootstrap: [AppComponent]
